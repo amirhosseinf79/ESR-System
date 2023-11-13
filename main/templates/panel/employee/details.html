@@ -1,0 +1,70 @@
+{% extends '_panel.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="row" style="width: 90%">
+            <div class="card">
+                <div class="card-header">
+                    <h2>{{ title }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 col-12">
+                            <label for="number">Employee ID:</label>
+                            {{ object.id }}
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label for="number">Username:</label>
+                            {{ object.user.username }}
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label for="number">First Name:</label>
+                            {{ object.user.firts_name }}
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label for="number">Last Name:</label>
+                            {{ object.user.last_name }}
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label for="number">Email:</label>
+                            {{ object.user.email }}
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label for="number">Phone Number:</label>
+                            {{ object.user.phone_number }}
+                        </div>
+                        <hr>
+                        <div class="col-md-6 col-12">
+                            <label for="number">Company:</label>
+                            {{ object.company.name }}
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label for="number">Company Number:</label>
+                            {{ object.company.number }}
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label for="number">Company Manager:</label>
+                            {{ object.company.created_by }}
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label for="number">Employee Role:</label>
+                            {{ object.role }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <form method="post" action="{% url 'remove-employee' pk=object.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Remove From Company" class="btn btn-danger mr-1" href="">
+                    </form>
+
+                </div>
+            </div>
+            <div style="width: 100%">
+                <hr>
+                <h3>Employee Shifts:</h3>
+                {% include 'include/_shiftList.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

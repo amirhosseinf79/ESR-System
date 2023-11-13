@@ -1,0 +1,55 @@
+{% extends '_panel.html' %}
+{% block content %}
+    <div class="d-flex">
+        <h2 class="mr-3">{{ title }}:</h2>
+        <div class="tab mt-1">
+            <button class="tablinks btn btn-dark" onclick="openWin(event, 'owned')">Mine ({{ companies_owned_c }})</button>
+            <button class="tablinks btn btn-dark" onclick="openWin(event, 'emp')">Currently Working ({{ companies_employee_c }})</button>
+            <button class="tablinks btn btn-warning" onclick="openWin(event, 'pending')">Accept Pending ({{ pending_companies_c }})</button>
+            <a class="btn btn-success" href="{% url 'company-create' %}">Add my Company</a>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-2">
+        <div id="owned" class="tabcontent" style="width: 95%">
+            <h3>Mine:</h3>
+            {% include 'include/_companyOwnedList.html' %}
+        </div>
+
+        <div id="emp" class="tabcontent dont-show" style="width: 95%">
+            <h3>Currently Working:</h3>
+            {% include 'include/_companyEmpList.html' %}
+        </div>
+
+        <div id="pending" class="tabcontent dont-show" style="width: 95%">
+            <h3>Currently Working:</h3>
+            {% include 'include/_companiesPendingList.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function openWin(evt, cityName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends '_panel.html' %}
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                <h2>Company: {{ object.name }}</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <label for="number">Company Number:</label>
+                        {{ object.number }}
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="number">Company Owner:</label>
+                        {{ object.owner }}
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="number">City:</label>
+                        {{ object.city }}
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="number">Foundation Date:</label>
+                        {{ object.foundation_date }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                {% if is_creator %}
+                    <form method="post" action="{% url 'company-delete' pk=object.id %}">
+                        {% csrf_token %}
+                        <label>
+                            <a class="btn btn-success mr-1" href="{% url 'add-employee' pk=object.id %}">Add Employee</a>
+                            <a class="btn btn-warning mr-1" href="{% url 'company-edit' pk=object.id %}">Edit</a>
+                            <input type="submit" class="btn btn-danger" value="Delete">
+                        </label>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="d-flex">
+        <h2 class="mr-3">{{ title }}:</h2>
+        <div class="tab mt-1">
+            {% if is_creator %}
+                <button class="tablinks btn btn-dark" onclick="openWin(event, 'shifts')">Shifts</button>
+                <button class="tablinks btn btn-dark" onclick="openWin(event, 'emps')">Employees ({{ employees_c }})</button>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-2">
+        <div id="shifts" class="tabcontent" style="width: 95%">
+            <form method="post" action="{% url 'add-shift' pk=object.id %}" class="d-flex mb-2">
+                {% csrf_token %}
+                <h3 class="mr-1">Shifts:</h3>
+                {% if not is_creator %}
+                    <input class="btn btn-success mr-2" type="submit" value="Update Shift">
+                    <h4 class="mt-2">{{ result }}</h4>
+                {% endif %}
+            </form>
+            {% include 'include/_shiftList.html' %}
+        </div>
+
+        <div id="emps" class="tabcontent dont-show" style="width: 95%">
+            <h3 class="mb-3">Currently Working:</h3>
+            {% include 'include/_empList.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function openWin(evt, cityName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+{% endblock %}

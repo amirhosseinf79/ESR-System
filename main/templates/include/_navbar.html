@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Employee Shift Recorder</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0 order-md-0 order-sm-1">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'company-create' %}">Add my own Company</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'company-list' %}">My Companies</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Manage
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'all-employees' %}">My Employees</a>
+                        <a class="dropdown-item" href="{% url 'my-shift' %}">My Shift records</a>
+                    </div>
+                </li>
+            {% endif %}
+        </ul>
+        <div class="my-2 my-lg-0 order-md-1 order-sm-0">
+            {% if user.is_authenticated %}
+                <span class="nav-item text-light mr-2">
+                Welcome,
+                    {% if user.first_name %}
+                        {{ user.first_name }}!
+                    {% else %}
+                        {{ user.username }}
+                    {% endif %}
+              </span>
+                <a class="btn btn-secondary my-2 my-sm-0" href="{% url 'profile' %}">Profile</a>
+                <a class="btn btn-danger my-2 my-sm-0" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a class="btn btn-success my-2 my-sm-0" href="{% url 'register' %}">Create Account</a>
+                <a class="btn btn-light my-2 my-sm-0" href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>

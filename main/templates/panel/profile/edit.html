@@ -1,0 +1,14 @@
+{% extends '_panel.html' %}
+{% block content %}
+    <h3>{{ title }}:</h3>
+    <hr>
+    <div class="d-flex justify-content-center">
+        <div class="card" style="width: 40%">
+            <form method="post" class="form-control controller">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Save">
+            </form>
+        </div>
+    </div>
+{% endblock %}

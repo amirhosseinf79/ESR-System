@@ -1,0 +1,33 @@
+.shift-tb-heder{
+    border-bottom: solid 2px #000000;
+}
+.right-border{
+    border-right: solid 2px #000000;
+    overflow-x: hidden;
+}
+.top-border{
+    border-top: solid 1px #000000;
+}
+.bottom-border{
+    border-bottom: solid 1px #000000;
+}
+.dont-show{
+    display: none;
+}
+.controller input{
+    width: 100%;
+    padding: 5px;
+}
+.controller select{
+    width: 100%;
+    padding: 5px;
+}
+
+.bottom-border div{
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+}
+label{
+    font-weight: bold;
+}

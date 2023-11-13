@@ -1,0 +1,9 @@
+<b>Your Current Location:</b>
+<ul>
+{% for item in url_three %}
+    <li><a href="{{ item.url }}">{{ item.name }}</a></li>
+    {% empty %}
+    <li><a href="/panel">panel</a></li>
+    <li><a href="{% url 'login' %}">panel>login</a></li>
+{% endfor %}
+</ul>

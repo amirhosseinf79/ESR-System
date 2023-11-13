@@ -1,0 +1,48 @@
+<div class="row p-1 border border-dark">
+    <div class="col-12 shift-tb-heder bg-light">
+        <div class="row font-weight-bold">
+            <div class="col-4 p-2 right-border">Employee Name</div>
+            <div class="col-2 p-2 right-border">Company</div>
+            <div class="col-3 p-2 right-border">Enter Time</div>
+            <div class="col-3 p-2">Exit Time</div>
+        </div>
+    </div>
+
+    <div class="col-12" style="height: 450px; overflow-y: auto">
+        {% for item in shift_list %}
+            <a class="row text-dark {% cycle '' 'bg-light' %} bottom-border" href="{% url 'manage-employee' pk=item.employee.id %}">
+                <div class="col-4 p-2 right-border">
+                    {% if item.employee.user.first_name %}
+                        {{ item.employee.user.first_name }}
+                        {{ item.employee.user.last_name }}
+                    {% else %}
+                        {{ item.employee.user.username }}
+                    {% endif %}
+                </div>
+                <div class="col-2 p-2 right-border">{{ item.employee.company }}</div>
+                <div class="col-3 p-2 right-border">{{ item.enter_time }}</div>
+                <div class="col-3 p-2">{{ item.exit_time }}</div>
+            </a>
+        {% empty %}
+            <div class="col-12 d-flex justify-content-center mt-4">
+                There is no record for your account.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row d-flex justify-content-center">
+    <div class="mt-4">
+        {% if shift_list.has_previous %}
+            <a class="btn btn-dark" href="?page={{ shift_list.previous_page_number }}">Previous</a>
+        {% else %}
+            <a class="btn btn-dark text-light disabled">Previous</a>
+        {% endif %}
+        <div class="btn disabled">{{ shift_list.number }}</div>
+        {% if shift_list.has_next %}
+            <a class="btn btn-dark" href="?page={{ shift_list.next_page_number }}">Next</a>
+        {% else %}
+            <a class="btn btn-dark text-light disabled">Next</a>
+        {% endif %}
+    </div>
+</div>

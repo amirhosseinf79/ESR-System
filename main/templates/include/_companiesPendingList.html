@@ -1,0 +1,55 @@
+<div class="row p-1 border border-dark">
+    <div class="col-12 shift-tb-heder bg-light">
+        <div class="row font-weight-bold">
+            <div class="col-2 p-2 right-border">Name</div>
+            <div class="col-2 p-2 right-border">Company Number</div>
+            <div class="col-2 p-2 right-border">Owner</div>
+            <div class="col-2 p-2 right-border">City</div>
+            <div class="col-2 p-2 right-border">Foundation Date</div>
+            <div class="col-2 p-2">Action</div>
+        </div>
+    </div>
+
+    <div class="col-12" style="height: 300px; overflow-y: auto">
+        {% for item in pending_companies %}
+            <div class="row {% cycle '' 'bg-light' %} bottom-border">
+                <div class="col-2 p-2 right-border">{{ item.name }}</div>
+                <div class="col-2 p-2 right-border">{{ item.number }}</div>
+                <div class="col-2 p-2 right-border">
+                    {% if item.created_by.first_name %}
+                        {{ item.created_by.first_name }}
+                        {{ item.created_by.last_name }}
+                    {% else %}
+                        {{ item.created_by }}
+                    {% endif %}
+                </div>
+                <div class="col-2 p-2 right-border">{{ item.city }}</div>
+                <div class="col-2 p-2 right-border">{{ item.foundation_date }}</div>
+                <div class="col-2 p-2">
+                    <a class="btn btn-success text-light mr-1" href="{% url 'company-accept' pk=item.id %}?accept=True">Accept</a>
+                    <a class="btn btn-danger text-light" href="{% url 'company-accept' pk=item.id %}">Decline</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 d-flex justify-content-center mt-4">
+                There is no record for your account.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row d-flex justify-content-center">
+    <div class="mt-4">
+        {% if pending_companies.has_previous %}
+            <a class="btn btn-dark" href="?page={{ pending_companies.previous_page_number }}">Previous</a>
+        {% else %}
+            <a class="btn btn-dark text-light disabled">Previous</a>
+        {% endif %}
+        <div class="btn disabled">{{ pending_companies.number }}</div>
+        {% if pending_companies.has_next %}
+            <a class="btn btn-dark" href="?page={{ pending_companies.next_page_number }}">Next</a>
+        {% else %}
+            <a class="btn btn-dark text-light disabled">Next</a>
+        {% endif %}
+    </div>
+</div>

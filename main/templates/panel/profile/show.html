@@ -1,0 +1,50 @@
+{% extends '_panel.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                <h2>{{ title }}</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <label for="number">User ID:</label>
+                        {{ user.id }}
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="number">Username:</label>
+                        {{ user.username }}
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="number">First Name:</label>
+                        {{ user.firts_name }}
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="number">Last Name:</label>
+                        {{ user.last_name }}
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="number">Email:</label>
+                        {{ user.email }}
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label for="number">Phone Number:</label>
+                        {{ user.phone_number }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-warning mr-1" href="{% url 'profile-edit' %}">Edit Profile</a>
+                <a class="btn btn-success mr-1" href="{% url 'company-create' %}">Add Company</a>
+                <a class="btn btn-dark mr-1" href="{% url 'company-list' %}">My Cmpanies</a>
+                <a class="btn btn-dark mr-1" href="{% url 'all-employees' %}">My Employees</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <h3>Your Shift Logs:</h3>
+        {% include 'include/_shiftList.html' %}
+    </div>
+{% endblock %}
