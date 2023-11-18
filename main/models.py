@@ -6,6 +6,7 @@ from django.utils import timezone
 
 from .helper.ModelManager import DeletedManager, EmployeeManager
 from .helper.exceptions import ForbiddenException, CustomError
+from .helper.utils import generate_rand_string
 
 
 def create_profile(sender, instance, created, **kwargs):
@@ -69,6 +70,7 @@ class Role(models.Model):
 
 
 class Employee(models.Model):
+    uid = models.CharField(max_length=20, default=generate_rand_string(), unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employee_info')
     company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='employees')
     role = models.ForeignKey('Role', on_delete=models.CASCADE, related_name='employee_role')
@@ -110,6 +112,9 @@ class Shift(models.Model):
         ordering = ('-enter_time', '-exit_time')
 
     def clean(self):
+        if self.id and not self.is_deleted and not self.employee.user.is_staff and self.exit_time:
+            raise ValidationError("Shift time is not editable.")
+
         if self.enter_time and not self.exit_time:
             self.exit_time = timezone.now()
         else:
@@ -119,15 +124,7 @@ class Shift(models.Model):
             if self.exit_time < self.enter_time:
                 raise ValidationError(f"Shift Time is not valid.")
 
-        if self.id and not self.is_deleted and not self.employee.user.is_staff and self.exit_time:
-            raise ValidationError("Shift time is not editable.")
-
-    def add_shift(self, user, company_id=None):
-        try:
-            emp_obj = Employee.objects.get(user=user, company_id=company_id)
-        except Employee.DoesNotExist:
-            raise ForbiddenException()
-
+    def add_shift_sys(self, emp_obj):
         try:
             obj = Shift.objects.get(exit_time=None, employee=emp_obj)
         except Shift.DoesNotExist:
@@ -149,6 +146,22 @@ class Shift(models.Model):
                 raise CustomError(f"Something went wrong")
 
         return result
+
+    def add_shift_by_uid(self, uid):
+        try:
+            emp_obj = Employee.objects.get(uid=uid)
+        except Employee.DoesNotExist:
+            raise ForbiddenException()
+
+        return self.add_shift_sys(emp_obj)
+
+    def add_shift(self, user, company_id=None):
+        try:
+            emp_obj = Employee.objects.get(user=user, company_id=company_id)
+        except Employee.DoesNotExist:
+            raise ForbiddenException()
+
+        return self.add_shift_sys(emp_obj)
 
     def __str__(self):
         return f"{self.id}"

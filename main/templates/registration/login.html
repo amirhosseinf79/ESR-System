@@ -4,11 +4,27 @@
     <hr>
     <div class="d-flex justify-content-center">
         <div class="card" style="width: 40%">
-            <form method="post" class="form-control controller">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Logn">
-            </form>
+            <div class="card-header">
+                <h4>{{ title }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" class="controller">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if title == 'Login' %}
+                        <input type="submit" value="Login">
+                    {% elif title == 'Create Account' %}
+                        <input type="submit" value="Register">
+                    {% endif %}
+                </form>
+            </div>
+            <div class="card-footer">
+                {% if title == 'Login' %}
+                    <a href="{% url 'register' %}">Dont have account? Register here</a>
+                {% elif title == 'Create Account' %}
+                    <a href="{% url 'login' %}">Already have account? Login here</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

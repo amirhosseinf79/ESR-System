@@ -169,3 +169,26 @@ class ShiftView(DefaultView):
 
     def put(self, request, pk=None):
         return self.access_denied()
+
+
+class ShiftAddView(DefaultView):
+    def get(self, request, **kwargs):
+        try:
+            result = Shift().add_shift_by_uid(request.GET.get('uid', None))
+            return Response({'details': result})
+        except ForbiddenException:
+            return self.access_denied()
+        except CustomError as e:
+            result = e
+            return Response({'details': result}, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request):
+        raise Http404
+
+    def put(self, request, pk=None):
+        raise Http404
+
+    def delete(self, request, pk=None):
+        raise Http404
+
+

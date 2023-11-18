@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from .models import Shift, Company, Employee
 from .forms import CompanyForm, EmployeeForm, UserForm
+import qrcode
 import re
 
 
@@ -23,11 +24,24 @@ def process_current_site_url(request):
         if item:
             data = {
                 'name': '>'.join(curl_splited[:i+1]),
-                'url': '/' + '/'.join(curl_splited[:i+1])
+                'url': '/' + '/'.join(curl_splited[:i+1]) + '/'
             }
             result.append(data)
 
     return result
+
+
+def generate_qr(data):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    img.save(f'main/static/img/emp/{data}.png')
 
 
 # Create your views here.
@@ -42,11 +56,11 @@ class RegisterView(View):
     def get(self, request):
         form = UserForm()
         data = {
-            'title': 'Create User Profile',
+            'title': 'Create Account',
             'url_three': process_current_site_url(request),
             'form': form
         }
-        return render(request, 'panel/profile/edit.html', data)
+        return render(request, 'registration/login.html', data)
 
     def post(self, request):
         form = UserForm(request.POST)
@@ -395,7 +409,8 @@ class EmployeeDetailsView(LoginRequiredMixin, View):
 
         data = {
             'object': obj,
-            'shift_list': shift_list
+            'shift_list': shift_list,
+            'object_qr': f'img/emp/{obj.uid}.png'
         }
 
         return data
@@ -404,6 +419,8 @@ class EmployeeDetailsView(LoginRequiredMixin, View):
         data = self.get_obj(request, pk)
         if not data['object']:
             return HttpResponseNotFound()
+
+        # generate_qr(data['object'].uid)
 
         data.update({
             'title': f"Employee Details",

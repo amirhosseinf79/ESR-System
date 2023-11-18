@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import random
 
 
 def paginate(page_num, obj):
@@ -11,3 +12,9 @@ def paginate(page_num, obj):
         paginated_obj = paginator.page(paginator.num_pages)
 
     return paginated_obj
+
+
+def generate_rand_string():
+    _str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    rand_str = ''.join([random.choice(_str) for _ in range(15)])
+    return rand_str

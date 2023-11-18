@@ -1,4 +1,5 @@
 {% extends '_panel.html' %}
+{% load static %}
 
 {% block content %}
     <div class="d-flex justify-content-center">
@@ -9,46 +10,55 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6 col-12">
-                            <label for="number">Employee ID:</label>
-                            {{ object.id }}
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ object.uid }}" alt="employee_id" style="width: 100%">
+                            </div>
                         </div>
-                        <div class="col-md-6 col-12">
-                            <label for="number">Username:</label>
-                            {{ object.user.username }}
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <label for="number">First Name:</label>
-                            {{ object.user.firts_name }}
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <label for="number">Last Name:</label>
-                            {{ object.user.last_name }}
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <label for="number">Email:</label>
-                            {{ object.user.email }}
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <label for="number">Phone Number:</label>
-                            {{ object.user.phone_number }}
-                        </div>
-                        <hr>
-                        <div class="col-md-6 col-12">
-                            <label for="number">Company:</label>
-                            {{ object.company.name }}
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <label for="number">Company Number:</label>
-                            {{ object.company.number }}
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <label for="number">Company Manager:</label>
-                            {{ object.company.created_by }}
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <label for="number">Employee Role:</label>
-                            {{ object.role }}
+                        <div class="col-md-9">
+                            <div class="row mt-md-4">
+                                <div class="col-md-6 col-12">
+                                    <label for="number">Employee ID:</label>
+                                    {{ object.id }}
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="number">Username:</label>
+                                    {{ object.user.username }}
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="number">First Name:</label>
+                                    {{ object.user.first_name }}
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="number">Last Name:</label>
+                                    {{ object.user.last_name }}
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="number">Email:</label>
+                                    {{ object.user.email }}
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="number">Phone Number:</label>
+                                    {{ object.user.profile.phone_number }}
+                                </div>
+                                <hr style="width: 100%">
+                                <div class="col-md-6 col-12">
+                                    <label for="number">Company:</label>
+                                    {{ object.company.name }}
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="number">Company Number:</label>
+                                    {{ object.company.number }}
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="number">Company Manager:</label>
+                                    {{ object.company.created_by }}
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="number">Employee Role:</label>
+                                    {{ object.role }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
