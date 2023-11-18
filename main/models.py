@@ -133,15 +133,15 @@ class Shift(models.Model):
             self.save()
 
             if not self.exit_time:
-                result = f"Shift Started on {self.enter_time.strftime('%Y/%m/%d at %H:%M')}."
+                result = f"Shift Started on {timezone.now().strftime('%Y/%m/%d at %H:%M')}."
             else:
-                result = f"Shift Ended on {self.exit_time.strftime('%Y/%m/%d at %H:%M')}."
+                result = f"Shift Ended on {timezone.now().strftime('%Y/%m/%d at %H:%M')}."
         else:
             obj.clean()
             obj.save()
 
             if obj.exit_time:
-                result = f"Shift Ended on {obj.exit_time.strftime('%Y/%m/%d at %H:%M')}."
+                result = f"Shift Ended on {timezone.now().strftime('%Y/%m/%d at %H:%M')}."
             else:
                 raise CustomError(f"Something went wrong")
 
